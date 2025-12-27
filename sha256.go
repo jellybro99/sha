@@ -11,10 +11,11 @@ func sha256Hash(message string) []uint32 {
 	return hashArray
 }
 
-func preprocessMessage(messageString string) []byte {
+func preprocessMessage(messageString string) []uint32 {
 	message := []byte(messageString)
 	messsageLength := uint64(len(message)) * 8
 
+	// will need to handle cases where message isn't evenly divisable into bits
 	message = append(message, 0x80)
 	for len(message)*8%512 != 448 {
 		message = append(message, 0x00)
@@ -24,7 +25,11 @@ func preprocessMessage(messageString string) []byte {
 	binary.BigEndian.PutUint64(lengthBytes, messsageLength)
 	message = append(message, lengthBytes...)
 
-	return message
+	result := make([]uint32, len(message)/4)
+	for i := range result {
+		result[i] = binary.BigEndian.Uint32(message[i*4 : i*4+4])
+	}
+	return result
 }
 
 func preprocessHash() []uint32 {

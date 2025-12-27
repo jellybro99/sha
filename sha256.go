@@ -2,47 +2,29 @@ package main
 
 import (
 	"encoding/binary"
-	"fmt"
 )
 
 func sha256Hash(message string) []uint32 {
 	paddedMessageBytes := preprocessMessage(message)
 	hashArray := preprocessHash()
 
-	fmt.Println(string(paddedMessageBytes))
-
 	return hashArray
 }
 
-func preprocessMessage(message string) []byte {
-	messageBytes := []byte(message)
+func preprocessMessage(messageString string) []byte {
+	message := []byte(messageString)
+	messsageLength := uint64(len(message)) * 8
 
-	messsageLength := len(messageBytes) * 8
-	paddingLength := 448 - (messsageLength+1)%512
-	paddingNum := (1 << paddingLength)
-	paddingBytes := make([]byte, 8)
-	binary.BigEndian.PutUint64(paddingBytes, uint64(paddingNum))
+	message = append(message, 0x80)
+	for len(message)*8%512 != 448 {
+		message = append(message, 0x00)
+	}
 
-	// paddingBytes2 := make([]byte, 8)
-	// binary.BigEndian.PutUint64(paddingBytes2, uint64(messsageLength))
+	lengthBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(lengthBytes, messsageLength)
+	message = append(message, lengthBytes...)
 
-	messageBytes = append(messageBytes, paddingBytes...)
-	// messageBytes = append(messageBytes, paddingBytes2...)
-
-	fmt.Println(message)
-	fmt.Println(string(messageBytes))
-	fmt.Println(messsageLength)
-	fmt.Println(paddingLength)
-	fmt.Println(paddingNum)
-	fmt.Println(string(paddingBytes))
-	fmt.Println(len(messageBytes) * 8)
-	// append 1
-	// append k 0s
-	// append 64 bit representation of l
-
-	paddedMessage := messageBytes
-
-	return paddedMessage
+	return message
 }
 
 func preprocessHash() []uint32 {

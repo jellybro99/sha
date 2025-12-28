@@ -25,8 +25,8 @@ func preprocessMessage(messageString string) []uint32 {
 	return result
 }
 
-func preprocessHash() []uint32 {
-	return []uint32{
+func preprocessHash() [8]uint32 {
+	return [8]uint32{
 		0x6a09e667,
 		0xbb67ae85,
 		0x3c6ef372,

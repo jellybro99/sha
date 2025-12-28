@@ -1,6 +1,4 @@
-/*
-Package sha256 implements the sha256 hash function
-*/
+// Package sha256 implements the sha256 hash function
 package sha256
 
 func Hash(messageString string) [8]uint32 {

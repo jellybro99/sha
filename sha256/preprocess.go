@@ -1,4 +1,4 @@
-package sha
+package sha256
 
 import (
 	"encoding/binary"

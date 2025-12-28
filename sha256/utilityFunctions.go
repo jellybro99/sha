@@ -1,4 +1,4 @@
-package sha
+package sha256
 
 func ch(x uint32, y uint32, z uint32) uint32 {
 	return (x & y) ^ (^x & z)

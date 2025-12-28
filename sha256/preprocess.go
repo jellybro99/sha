@@ -14,9 +14,9 @@ func preprocessMessage(messageString string) []byte {
 		message = append(message, 0x00)
 	}
 
-	lengthBytes := make([]byte, 8)
-	binary.BigEndian.PutUint64(lengthBytes, messageLength)
-	message = append(message, lengthBytes...)
+	var lengthBytes [8]byte
+	binary.BigEndian.PutUint64(lengthBytes[:], messageLength)
+	message = append(message, lengthBytes[:]...)
 
 	return message
 }

@@ -2,8 +2,10 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
+	"github.com/jellybro99/sha256_cli/sha256"
 	"github.com/spf13/cobra"
 )
 
@@ -11,8 +13,10 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "sha",
 	Short: "A go implementation of the sha256 hashing algorithm",
-	Long: `This is a go cli implementation of the sha256 hashing algorithm
-	Run: sha <message>`,
+	Long: `sha is a CLI tool for the sha256 hashing algorithm.
+	You can provide text as arguments or pipe it in via stdin.`,
+	Args: cobra.ArbitraryArgs,
+	Run:  runHasher,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -25,13 +29,17 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	rootCmd.Flags().Bool("sha256", false, "Use the sha256 hash function")
+}
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sha.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func runHasher(cmd *cobra.Command, args []string) {
+	result, err := cmd.Flags().GetBool("sha256")
+	if err != nil {
+		os.Exit(1)
+	}
+	if result {
+		fmt.Printf("%s: %X\n", args[0], sha256.Hash(args[0]))
+	} else {
+		fmt.Println("use -h")
+	}
 }

@@ -36,9 +36,11 @@ func runHasher(cmd *cobra.Command, args []string) {
 	if useSha256 {
 		if len(messages) == 1 {
 			fmt.Print(formatHash(sha256.Hash(messages[0]), outputFormat))
-		}
-		for _, message := range messages {
-			fmt.Printf("%s: %s", message, formatHash(sha256.Hash(message), outputFormat))
+		} else {
+			for _, message := range messages {
+				// only print message if its not super duper long
+				fmt.Printf("%s: %s", message, formatHash(sha256.Hash(message), outputFormat))
+			}
 		}
 	} else {
 		fmt.Println("Given hash function is not supported")

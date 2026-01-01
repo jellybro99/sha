@@ -35,8 +35,5 @@ func runHasher(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := hasher(args, outputFormat, useSha256); err != nil {
-		return err
-	}
-	return nil
+	return hasher(args, outputFormat, useSha256)
 }

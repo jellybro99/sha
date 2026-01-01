@@ -8,29 +8,12 @@ import (
 	"strings"
 
 	"github.com/jellybro99/sha256_cli/sha256"
-	"github.com/spf13/cobra"
 )
 
-func runHasher(cmd *cobra.Command, args []string) {
-	useSha256, err := cmd.Flags().GetBool("sha256")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	outputFormat, err := cmd.Flags().GetString("output")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
+func hasher(args []string, outputFormat string, useSha256 bool) error {
 	messages, err := getInputs(args)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	if len(messages) == 0 {
-		fmt.Println("no input given")
+		return err
 	}
 
 	if useSha256 {
@@ -45,6 +28,8 @@ func runHasher(cmd *cobra.Command, args []string) {
 	} else {
 		fmt.Println("Given hash function is not supported")
 	}
+
+	return nil
 }
 
 func formatHash(hash [8]uint32, outputFormat string) string {

@@ -6,27 +6,23 @@ import (
 	"io"
 	"os"
 	"strings"
-
-	"github.com/jellybro99/sha256_cli/sha256"
 )
 
-func hasher(args []string, outputFormat string, useSha256 bool) error {
+type Hasher func(string) [8]uint32
+
+func hasher(hashFunction Hasher, outputFormat string, args []string) error {
 	messages, err := getInputs(args)
 	if err != nil {
 		return err
 	}
 
-	if useSha256 {
-		if len(messages) == 1 {
-			fmt.Print(formatHash(sha256.Hash(messages[0]), outputFormat))
-		} else {
-			for _, message := range messages {
-				// only print message if its not super duper long
-				fmt.Printf("%s: %s", message, formatHash(sha256.Hash(message), outputFormat))
-			}
-		}
+	if len(messages) == 1 {
+		fmt.Print(formatHash(hashFunction(messages[0]), outputFormat))
 	} else {
-		fmt.Println("Given hash function is not supported")
+		for _, message := range messages {
+			// only print message if its not super duper long
+			fmt.Printf("%s: %s", message, formatHash(hashFunction(message), outputFormat))
+		}
 	}
 
 	return nil

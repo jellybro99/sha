@@ -1,4 +1,4 @@
-# sha256_cli
+# sha
 
 This is a go implementation of SHA-256, as well as a CLI to use it.
 

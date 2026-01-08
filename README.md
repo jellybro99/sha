@@ -6,7 +6,7 @@ Based on the NIST specification: <https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FI
 
 ## Setup
 
-- Clone the repo and cd into it: `cd sha256_cli`
+- Clone the repo and cd into it: `cd sha`
 - Install go if you don't have it already <https://go.dev/doc/install>
-- Run `go build sha`, this creates the main executable.
+- Run `go build`, this creates the main executable.
 - You can also run without building by using `go run . <arguments>`

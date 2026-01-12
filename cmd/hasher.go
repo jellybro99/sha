@@ -22,7 +22,7 @@ func hasher(hashFunction Hasher, outputFormat string, messages []string) error {
 	for range workers {
 		wg.Go(func() {
 			for message := range jobs {
-				fmt.Printf("%s: %s", message, formatHash(hashFunction(message), outputFormat))
+				fmt.Printf("%.8s: %s", message, formatHash(hashFunction(message), outputFormat))
 			}
 		})
 	}

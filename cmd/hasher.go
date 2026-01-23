@@ -45,6 +45,8 @@ func formatHash(hash [8]uint32, outputFormat string) string {
 			fmt.Fprintf(&sb, "%08X ", word)
 		case "dec":
 			fmt.Fprintf(&sb, "%d ", word)
+		case "bin":
+			fmt.Fprintf(&sb, "%032b ", word)
 		}
 	}
 	sb.WriteString("\n")

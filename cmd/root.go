@@ -24,7 +24,7 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringP("output", "o", "hex", "Output in the given format (hex, dec)")
+	rootCmd.PersistentFlags().StringP("output", "o", "hex", "Output in the given format (hex, dec, bin)")
 
 	rootCmd.AddCommand(newHashCommand("sha256", sha256.Hash))
 }

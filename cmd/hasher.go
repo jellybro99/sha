@@ -42,7 +42,7 @@ func formatHash(hash [8]uint32, outputFormat string) string {
 	for _, word := range hash {
 		switch outputFormat {
 		case "hex":
-			fmt.Fprintf(&sb, "%X ", word)
+			fmt.Fprintf(&sb, "%08X ", word)
 		case "dec":
 			fmt.Fprintf(&sb, "%d ", word)
 		}

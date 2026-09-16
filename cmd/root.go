@@ -3,6 +3,7 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 
@@ -14,7 +15,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "sha",
 	Short: "A go implementation of sha hashing algorithms",
-	Long:  "sha is a CLI tool for computing sha hashes. You can provide test as arguments or pipe it in via stdin.",
+	Long:  "sha is a CLI tool for computing sha hashes. You can provide text as arguments or pipe it in via stdin.",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -44,6 +45,12 @@ func runHasher(cmd *cobra.Command, args []string, hashFunction Hasher) error {
 	if err != nil {
 		return err
 	}
+	switch outputFormat {
+	case "hex", "dec", "bin":
+	default:
+		return fmt.Errorf("invalid output format %q (expected hex, dec, or bin)", outputFormat)
+	}
+
 	messages, err := getInputs(args)
 	if err != nil {
 		return err

@@ -64,18 +64,13 @@ func getInputs(args []string) ([]string, error) {
 		return args, nil
 	}
 
-	file, err := os.Stdin.Stat()
-	if err != nil {
-		return nil, err
-	}
-
-	if file.Size() == 0 {
-		return nil, errors.New("no input given")
-	}
-
 	message, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(message) == 0 {
+		return nil, errors.New("no input given")
 	}
 
 	return []string{string(message)}, nil

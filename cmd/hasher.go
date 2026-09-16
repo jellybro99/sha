@@ -22,7 +22,7 @@ func hasher(hashFunction Hasher, outputFormat string, messages []string) error {
 	for range workers {
 		wg.Go(func() {
 			for message := range jobs {
-				fmt.Printf("%.8s: %s", message, formatHash(hashFunction(message), outputFormat))
+				fmt.Printf("%s: %s", truncateLabel(message, 8), formatHash(hashFunction(message), outputFormat))
 			}
 		})
 	}
@@ -34,6 +34,14 @@ func hasher(hashFunction Hasher, outputFormat string, messages []string) error {
 
 	wg.Wait()
 	return nil
+}
+
+func truncateLabel(s string, maxRunes int) string {
+	runes := []rune(s)
+	if len(runes) <= maxRunes {
+		return s
+	}
+	return string(runes[:maxRunes])
 }
 
 func formatHash(hash [8]uint32, outputFormat string) string {
